@@ -1,0 +1,12 @@
+{
+  "name": "com.mgebhard.uutils",
+  "version": "1.0.0",
+  "displayName": "Unity Utilities",
+  "description": "A collection of utility scripts, classes and extensions for Unity.",
+  "unity": "6000.0",
+  "author": {
+    "name": "Marius Gebhard",
+    "url": "https://m-gebhard.dev"
+  },
+  "dependencies": {}
+}
