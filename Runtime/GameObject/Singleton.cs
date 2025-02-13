@@ -1,70 +1,76 @@
 using UnityEngine;
 
-/// <summary>
-/// Abstract base class for creating singleton MonoBehaviour instances.
-/// </summary>
-/// <typeparam name="T">Type of the singleton class.</typeparam>
-public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace UnityUtils.GameObjects
 {
-    protected static T instance;
-
     /// <summary>
-    /// Gets the singleton instance. If the instance is not found, it searches for it in the scene.
+    /// Abstract base class for creating singleton MonoBehaviour instances.
     /// </summary>
-    public static T Instance
+    /// <typeparam name="T">Type of the singleton class.</typeparam>
+    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        get
+        protected static T instance;
+
+        /// <summary>
+        /// Gets the singleton instance. If the instance is not found, it searches for it in the scene.
+        /// </summary>
+        public static T Instance
         {
-            if (instance != null) return instance;
+            get
+            {
+                if (instance != null) return instance;
 
-            instance = FindFirstObjectByType<T>();
+                instance = FindFirstObjectByType<T>();
 
+                if (instance == null)
+                {
+                    Debug.LogError($"[BaseSingleton] No instance of {typeof(T)} found in the scene.");
+                }
+
+                return instance;
+            }
+        }
+
+        /// <summary>
+        /// Awake method to initialize the singleton instance.
+        /// </summary>
+        protected virtual void Awake()
+        {
             if (instance == null)
             {
-                Debug.LogError($"[BaseSingleton] No instance of {typeof(T)} found in the scene.");
+                instance = this as T;
             }
-            return instance;
+            else if (instance != this)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
     /// <summary>
-    /// Awake method to initialize the singleton instance.
+    /// A persistent singleton that is not destroyed on scene load.
     /// </summary>
-    protected virtual void Awake()
+    /// <typeparam name="T">Type of the singleton class.</typeparam>
+    public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehaviour
     {
-        if (instance == null)
+        /// <summary>
+        /// Awake method to call DontDestroyOnLoad on the object.
+        /// </summary>
+        protected override void Awake()
         {
-            instance = this as T;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
+            base.Awake();
+
+            if (instance == this)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
-}
 
-/// <summary>
-/// A persistent singleton that is not destroyed on scene load.
-/// </summary>
-/// <typeparam name="T">Type of the singleton class.</typeparam>
-public abstract class PersistentSingleton<T> : Singleton<T> where T : MonoBehaviour
-{
     /// <summary>
-    /// Awake method to call DontDestroyOnLoad on the object.
+    /// An ephemeral singleton that does not persist across scene loads.
     /// </summary>
-    protected override void Awake()
+    /// <typeparam name="T">Type of the singleton class.</typeparam>
+    public abstract class EphemeralSingleton<T> : Singleton<T> where T : MonoBehaviour
     {
-        base.Awake();
-
-        if (instance == this)
-        {
-            DontDestroyOnLoad(gameObject);
-        }
     }
 }
-
-/// <summary>
-/// An ephemeral singleton that does not persist across scene loads.
-/// </summary>
-/// <typeparam name="T">Type of the singleton class.</typeparam>
-public abstract class EphemeralSingleton<T> : Singleton<T> where T : MonoBehaviour  {}

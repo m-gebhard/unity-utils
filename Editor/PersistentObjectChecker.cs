@@ -1,46 +1,50 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityUtils.GameObjects;
 
-public class PersistentObjectChecker : EditorWindow
+namespace UnityUtils.Editor
 {
-    /// <summary>
-    /// Editor tool to check for duplicate GUIDs in the scene
-    /// </summary>
-    [MenuItem("Tools/Check Duplicate GUIDs")]
-    public static void CheckForDuplicateGUIDs()
+    public class PersistentObjectChecker : EditorWindow
     {
-        PersistentObject[] allObjects = FindObjectsByType<PersistentObject>(FindObjectsSortMode.None);
-        Dictionary<string, List<PersistentObject>> guidMap = new Dictionary<string, List<PersistentObject>>();
-
-        foreach (PersistentObject obj in allObjects)
+        /// <summary>
+        /// Editor tool to check for duplicate GUIDs in the scene
+        /// </summary>
+        [MenuItem("Tools/Check Duplicate GUIDs")]
+        public static void CheckForDuplicateGUIDs()
         {
-            if (string.IsNullOrEmpty(obj.guid)) continue;
+            PersistentObject[] allObjects = FindObjectsByType<PersistentObject>(FindObjectsSortMode.None);
+            Dictionary<string, List<PersistentObject>> guidMap = new Dictionary<string, List<PersistentObject>>();
 
-            if (!guidMap.ContainsKey(obj.guid))
-                guidMap[obj.guid] = new List<PersistentObject>();
-
-            guidMap[obj.guid].Add(obj);
-        }
-
-        bool hasDuplicates = false;
-        foreach (var kvp in guidMap)
-        {
-            if (kvp.Value.Count > 1)
+            foreach (PersistentObject obj in allObjects)
             {
-                hasDuplicates = true;
-                Debug.LogError($"Duplicate GUID found: {kvp.Key}");
+                if (string.IsNullOrEmpty(obj.guid)) continue;
 
-                foreach (PersistentObject obj in kvp.Value)
+                if (!guidMap.ContainsKey(obj.guid))
+                    guidMap[obj.guid] = new List<PersistentObject>();
+
+                guidMap[obj.guid].Add(obj);
+            }
+
+            bool hasDuplicates = false;
+            foreach (var kvp in guidMap)
+            {
+                if (kvp.Value.Count > 1)
                 {
-                    Debug.LogError($"  - {obj.name} (Scene: {obj.gameObject.scene.name})", obj);
+                    hasDuplicates = true;
+                    Debug.LogError($"Duplicate GUID found: {kvp.Key}");
+
+                    foreach (PersistentObject obj in kvp.Value)
+                    {
+                        Debug.LogError($"  - {obj.name} (Scene: {obj.gameObject.scene.name})", obj);
+                    }
                 }
             }
-        }
 
-        if (!hasDuplicates)
-        {
-            Debug.Log("✅ No duplicate GUIDs found!");
+            if (!hasDuplicates)
+            {
+                Debug.Log("✅ No duplicate GUIDs found!");
+            }
         }
     }
 }

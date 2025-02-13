@@ -1,32 +1,35 @@
 using UnityEngine;
 
-/// <summary>
-/// Provides extension methods for the Color class.
-/// </summary>
-public static class ColorExtension
+namespace UnityUtils.Extensions
 {
     /// <summary>
-    /// Adjusts the saturation and brightness of the given color by the specified intensity.
+    /// Provides extension methods for the Color class.
     /// </summary>
-    /// <param name="color">The original color to adjust.</param>
-    /// <param name="intensity">The intensity by which to adjust the saturation and value. Positive values increase, negative values decrease.</param>
-    /// <returns>A new color with adjusted saturation and value.</returns>
-    public static Color AdjustSaturation(this Color color, float intensity)
+    public static class ColorExtension
     {
-        // Convert color to HSV
-        Color.RGBToHSV(color, out float h, out float s, out float v);
+        /// <summary>
+        /// Adjusts the saturation and brightness of the given color by the specified intensity.
+        /// </summary>
+        /// <param name="color">The original color to adjust.</param>
+        /// <param name="intensity">The intensity by which to adjust the saturation and value. Positive values increase, negative values decrease.</param>
+        /// <returns>A new color with adjusted saturation and value.</returns>
+        public static Color AdjustSaturation(this Color color, float intensity)
+        {
+            // Convert color to HSV
+            Color.RGBToHSV(color, out float h, out float s, out float v);
 
-        // Adjust saturation and brightness while keeping hue constant
-        s += intensity; // Increase saturation
-        v += intensity; // Increase value (brightness)
+            // Adjust saturation and brightness while keeping hue constant
+            s += intensity; // Increase saturation
+            v += intensity; // Increase value (brightness)
 
-        // Clamp values to the range [0, 1]
-        s = Mathf.Clamp01(s);
-        v = Mathf.Clamp01(v);
+            // Clamp values to the range [0, 1]
+            s = Mathf.Clamp01(s);
+            v = Mathf.Clamp01(v);
 
-        // Convert back to RGB
-        Color adjustedColor = Color.HSVToRGB(h, s, v);
+            // Convert back to RGB
+            Color adjustedColor = Color.HSVToRGB(h, s, v);
 
-        return adjustedColor;
+            return adjustedColor;
+        }
     }
 }
