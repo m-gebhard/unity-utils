@@ -7,6 +7,7 @@ namespace UnityUtils.GameObjects
     /// <summary>
     /// Handles runtime registration of collision and trigger events based on object tags.
     /// </summary>
+    [RequireComponent(typeof(Collider))]
     public abstract class ColliderEventHandler : MonoBehaviour
     {
         /// <summary>
