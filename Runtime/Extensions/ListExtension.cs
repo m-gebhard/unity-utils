@@ -8,7 +8,7 @@ namespace UnityUtils.Extensions
     /// <summary>
     /// Provides extension methods for lists of floats and generic lists.
     /// </summary>
-    public static class FloatListExtensions
+    public static class ListExtension
     {
         /// <summary>
         /// Linearly interpolates between elements in a list of floats based on a parameter t.
