@@ -30,10 +30,15 @@ namespace UnityUtils.EventSystem
         private int nextHandlerId;
 
         /// <summary>
-        /// Subscribes an event by adding a handler to the list of handlers for the event type.
+        /// Indicates whether the handlers dictionary needs to be cleared after publishing.
+        /// </summary>
+        private bool needsClearAfterPublishing;
+
+        /// <summary>
+        /// Subscribes a handler to an event type.
         /// </summary>
         /// <typeparam name="TEvent">The type of the event.</typeparam>
-        /// <param name="handler">The handler to add for the event.</param>
+        /// <param name="handler">The handler to be invoked when the event is published.</param>
         /// <returns>The ID of the subscribed handler.</returns>
         public int Subscribe<TEvent>(Action<TEvent> handler) where TEvent : IEvent<TChannel>
         {
@@ -51,10 +56,10 @@ namespace UnityUtils.EventSystem
         }
 
         /// <summary>
-        /// Unsubscribes an event by removing a handler from the list of handlers for the event type.
+        /// Unsubscribes a handler from an event type.
         /// </summary>
         /// <typeparam name="TEvent">The type of the event.</typeparam>
-        /// <param name="handlerId">The ID of the handler to remove for the event.</param>
+        /// <param name="handlerId">The ID of the handler to be unsubscribed.</param>
         public void Unsubscribe<TEvent>(int handlerId) where TEvent : IEvent<TChannel>
         {
             if (isPublishing)
@@ -73,11 +78,18 @@ namespace UnityUtils.EventSystem
         }
 
         /// <summary>
-        /// Unsubscribes all events by clearing the handlers dictionary.
+        /// Unsubscribes all event handlers.
         /// </summary>
         public void UnsubscribeAll()
         {
-            handlers.Clear();
+            if (isPublishing)
+            {
+                needsClearAfterPublishing = true;
+            }
+            else
+            {
+                handlers.Clear();
+            }
         }
 
         /// <summary>
@@ -88,7 +100,7 @@ namespace UnityUtils.EventSystem
         public void Publish<TEvent>(IEvent<TChannel> @event) where TEvent : IEvent<TChannel>
         {
             Type type = typeof(TEvent);
-            if (!handlers.TryGetValue(type, out var actions)) return;
+            if (!handlers.TryGetValue(type, out Dictionary<int, Action<IEvent<TChannel>>> actions)) return;
 
             isPublishing = true;
 
@@ -99,12 +111,27 @@ namespace UnityUtils.EventSystem
 
             isPublishing = false;
 
+            HandleHandlersToRemove(actions);
+        }
+
+        /// <summary>
+        /// Handles the removal of handlers that were marked for removal during publishing.
+        /// </summary>
+        /// <param name="actions">The dictionary of actions to remove handlers from.</param>
+        private void HandleHandlersToRemove(Dictionary<int, Action<IEvent<TChannel>>> actions)
+        {
             foreach (var handlerId in handlersToRemove)
             {
                 actions.Remove(handlerId);
             }
 
             handlersToRemove.Clear();
+
+            if (needsClearAfterPublishing)
+            {
+                handlers.Clear();
+                needsClearAfterPublishing = false;
+            }
         }
     }
 }
