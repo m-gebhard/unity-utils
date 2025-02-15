@@ -37,9 +37,7 @@ namespace UnityUtils.EventSystem
             foreach (Type channelType in types)
             {
                 var createdEventChannel = Activator.CreateInstance(channelType);
-
                 EventChannels.Add(channelType, createdEventChannel);
-                Debug.Log($"Registered event channel: {channelType.Name}");
             }
         }
 
@@ -59,11 +57,12 @@ namespace UnityUtils.EventSystem
         /// <typeparam name="TChannel">The type of the event channel.</typeparam>
         /// <typeparam name="TEvent">The type of the event.</typeparam>
         /// <param name="handler">The handler to add for the event.</param>
-        public static void Subscribe<TChannel, TEvent>(Action<TEvent> handler)
+        /// <returns>The ID of the subscribed handler.</returns>
+        public static int Subscribe<TChannel, TEvent>(Action<TEvent> handler)
             where TChannel : EventChannel<TChannel>
             where TEvent : IEvent<TChannel>
         {
-            GetEventChannel<TChannel>().Subscribe<TEvent>(e => handler((TEvent)e));
+            return GetEventChannel<TChannel>().Subscribe<TEvent>(e => handler((TEvent)e));
         }
 
         /// <summary>
@@ -71,12 +70,20 @@ namespace UnityUtils.EventSystem
         /// </summary>
         /// <typeparam name="TChannel">The type of the event channel.</typeparam>
         /// <typeparam name="TEvent">The type of the event.</typeparam>
-        /// <param name="handler">The handler to remove for the event.</param>
-        public static void Unsubscribe<TChannel, TEvent>(Action<TEvent> handler)
+        /// <param name="handlerId">The ID of the handler to remove for the event.</param>
+        public static void Unsubscribe<TChannel, TEvent>(int handlerId)
             where TChannel : EventChannel<TChannel>
             where TEvent : IEvent<TChannel>
         {
-            GetEventChannel<TChannel>().Unsubscribe(handler);
+            GetEventChannel<TChannel>().Unsubscribe<TEvent>(handlerId);
+        }
+
+        /// <summary>
+        /// Unsubscribes all events by clearing the handlers dictionary in the specified event channel.
+        /// </summary>
+        protected static void UnsubscribeAll<TChannel>() where TChannel : EventChannel<TChannel>
+        {
+            GetEventChannel<TChannel>().UnsubscribeAll();
         }
 
         /// <summary>
