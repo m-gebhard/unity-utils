@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace UnityUtils.Extensions
@@ -30,6 +31,32 @@ namespace UnityUtils.Extensions
             Color adjustedColor = Color.HSVToRGB(h, s, v);
 
             return adjustedColor;
+        }
+
+        /// <summary>
+        /// Converts the color to a hexadecimal string.
+        /// </summary>
+        /// <param name="color">The color to convert.</param>
+        /// <returns>A hexadecimal string representation of the color.</returns>
+        public static string ToHex(this Color color)
+        {
+            return $"#{ColorUtility.ToHtmlStringRGB(color)}";
+        }
+
+        /// <summary>
+        /// Converts a hexadecimal string to a Color.
+        /// </summary>
+        /// <param name="hex">The hexadecimal string to convert.</param>
+        /// <returns>The Color represented by the hexadecimal string.</returns>
+        /// <exception cref="Exception">Thrown when the hex string is in an invalid format.</exception>
+        public static Color FromHex(this string hex)
+        {
+            if (ColorUtility.TryParseHtmlString(hex, out Color color))
+            {
+                throw new Exception("Invalid hex color format.");
+            }
+
+            return color;
         }
     }
 }

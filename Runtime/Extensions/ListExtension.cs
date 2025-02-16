@@ -11,35 +11,6 @@ namespace UnityUtils.Extensions
     public static class ListExtension
     {
         /// <summary>
-        /// Linearly interpolates between elements in a list of floats based on a parameter t.
-        /// </summary>
-        /// <param name="list">The list of floats to interpolate.</param>
-        /// <param name="t">The interpolation parameter, typically between 0 and 1.</param>
-        /// <returns>The interpolated float value.</returns>
-        /// <exception cref="System.ArgumentException">Thrown when the list is empty.</exception>
-        public static float Lerp(this List<float> list, float t)
-        {
-            if (list.Count == 0)
-            {
-                throw new ArgumentException("List<float> must not be empty.");
-            }
-            else if (list.Count == 1)
-            {
-                return list[0];
-            }
-
-            int startIndex = (int)(t * (list.Count - 1));
-            int endIndex = startIndex + 1;
-
-            float startValue = list[startIndex];
-            float endValue = list[endIndex];
-
-            float fraction = (t - (float)startIndex / (list.Count - 1)) * (list.Count - 1);
-
-            return Mathf.Lerp(startValue, endValue, fraction);
-        }
-
-        /// <summary>
         /// Shuffles the elements of a list in place using the Fisher-Yates algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
@@ -76,6 +47,86 @@ namespace UnityUtils.Extensions
             }
 
             return list[UnityEngine.Random.Range(0, list.Count)];
+        }
+
+        /// <summary>
+        /// Linearly interpolates between elements in a list of floats based on a parameter t.
+        /// </summary>
+        /// <param name="list">The list of floats to interpolate.</param>
+        /// <param name="t">The interpolation parameter, typically between 0 and 1.</param>
+        /// <returns>The interpolated float value.</returns>
+        /// <exception cref="System.ArgumentException">Thrown when the list is empty.</exception>
+        public static float Lerp(this List<float> list, float t)
+        {
+            if (list.Count == 0)
+            {
+                throw new ArgumentException("List<float> must not be empty.");
+            }
+            else if (list.Count == 1)
+            {
+                return list[0];
+            }
+
+            int startIndex = (int)(t * (list.Count - 1));
+            int endIndex = startIndex + 1;
+
+            float startValue = list[startIndex];
+            float endValue = list[endIndex];
+
+            float fraction = (t - (float)startIndex / (list.Count - 1)) * (list.Count - 1);
+
+            return Mathf.Lerp(startValue, endValue, fraction);
+        }
+
+
+        /// <summary>
+        /// Finds the nearest transform in the list to the specified transform.
+        /// </summary>
+        /// <param name="transformList">The list of transforms to search.</param>
+        /// <param name="compareTransform">The transform to compare against.</param>
+        /// <returns>The nearest transform to the specified transform.</returns>
+        public static Transform Nearest(this List<Transform> transformList, Transform compareTransform)
+        {
+            Transform nearest = null;
+            float shortest = float.MaxValue;
+
+            foreach (Transform t in transformList)
+            {
+                float dist = Vector3.Distance(compareTransform.position, t.position);
+
+                if (dist < shortest)
+                {
+                    shortest = dist;
+                    nearest = t;
+                }
+            }
+
+            return nearest;
+        }
+
+        /// <summary>
+        /// Finds the furthest transform in the list from the specified transform.
+        /// </summary>
+        /// <param name="transformList">The list of transforms to search.</param>
+        /// <param name="compareTransform">The transform to compare against.</param>
+        /// <returns>The furthest transform from the specified transform.</returns>
+        public static Transform Furthest(this List<Transform> transformList, Transform compareTransform)
+        {
+            Transform furthest = null;
+            float furthestDist = 0;
+
+            foreach (Transform t in transformList)
+            {
+                float dist = Vector3.Distance(compareTransform.position, t.position);
+
+                if (dist > furthestDist)
+                {
+                    furthestDist = dist;
+                    furthest = t;
+                }
+            }
+
+            return furthest;
         }
     }
 }
