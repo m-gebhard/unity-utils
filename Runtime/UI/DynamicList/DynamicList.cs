@@ -55,7 +55,7 @@ namespace UnityUtils.UI
 
             foreach (T spawnedItem in spawnedListItems)
             {
-                StartCoroutine(RebuildListLayout(spawnedItem.Rect));
+                StartCoroutine(spawnedItem.Rect.RebuildLayout());
             }
         }
 
@@ -93,18 +93,6 @@ namespace UnityUtils.UI
         {
             ClearList();
             BuildList();
-        }
-
-        /// <summary>
-        /// Rebuilds the layout of the list item to fix potential sizing issues.
-        /// </summary>
-        /// <param name="rect">The RectTransform of the list item.</param>
-        /// <returns>An IEnumerator for the coroutine.</returns>
-        private static IEnumerator RebuildListLayout(RectTransform rect)
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
-            yield return new WaitForEndOfFrame();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
         }
     }
 
