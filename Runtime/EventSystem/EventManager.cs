@@ -8,13 +8,13 @@ namespace UnityUtils.EventSystem
     /// <summary>
     /// Manages event channels and provides methods to subscribe and publish events.
     /// </summary>
-    [DefaultExecutionOrder(-500)]
-    public class EventManager : EphemeralSingleton<EventManager>
+    [DefaultExecutionOrder(-1000)]
+    public class EventManager : PersistentSingleton<EventManager>
     {
         /// <summary>
         /// Dictionary to store event channels by their type.
         /// </summary>
-        private static readonly Dictionary<Type, object> EventChannels = new();
+        private static readonly Dictionary<Type, IEventChannel> EventChannels = new();
 
         /// <summary>
         /// Called when the script instance is being loaded.
@@ -22,6 +22,7 @@ namespace UnityUtils.EventSystem
         protected override void Awake()
         {
             base.Awake();
+            if (Instance != this) return;
             RegisterEventChannels();
         }
 
@@ -36,7 +37,7 @@ namespace UnityUtils.EventSystem
             // Create an instance of each channel.
             foreach (Type channelType in types)
             {
-                var createdEventChannel = Activator.CreateInstance(channelType);
+                IEventChannel createdEventChannel = (IEventChannel)Activator.CreateInstance(channelType);
                 EventChannels.Add(channelType, createdEventChannel);
             }
         }

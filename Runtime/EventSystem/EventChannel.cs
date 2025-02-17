@@ -4,10 +4,18 @@ using System.Collections.Generic;
 namespace UnityUtils.EventSystem
 {
     /// <summary>
+    /// Interface representing an event channel.
+    /// </summary>
+    public interface IEventChannel
+    {
+        public void UnsubscribeAll();
+    }
+
+    /// <summary>
     /// Abstract class representing an event channel that can subscribe, unsubscribe, and publish events.
     /// </summary>
     /// <typeparam name="TChannel">The type of the event channel.</typeparam>
-    public abstract class EventChannel<TChannel> where TChannel : EventChannel<TChannel>
+    public abstract class EventChannel<TChannel> : IEventChannel where TChannel : EventChannel<TChannel>
     {
         /// <summary>
         /// Dictionary to store event handlers by event type and handler ID.
