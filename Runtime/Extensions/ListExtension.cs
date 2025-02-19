@@ -15,7 +15,7 @@ namespace UnityUtils.Extensions
         /// </summary>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
         /// <param name="list">The list to shuffle.</param>
-        public static void Shuffle<T>(this List<T> list)
+        public static List<T> Shuffle<T>(this List<T> list)
         {
             Random rng = new();
 
@@ -26,6 +26,19 @@ namespace UnityUtils.Extensions
                 int k = rng.Next(n + 1);
                 (list[n], list[k]) = (list[k], list[n]);
             }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Creates a shallow copy of the list.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="list">The list to clone.</param>
+        /// <returns>A new list containing the same elements as the original list.</returns>
+        public static List<T> Clone<T>(this List<T> list)
+        {
+            return new List<T>(list);
         }
 
         /// <summary>
