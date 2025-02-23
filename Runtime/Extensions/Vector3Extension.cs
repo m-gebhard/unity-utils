@@ -59,5 +59,16 @@ namespace UnityUtils.Extensions
                 !isZero ? vector.z / value : vector.z
             );
         }
+
+        /// <summary>
+        /// Calculates the distance between two vectors.
+        /// </summary>
+        /// <param name="vector">The original vector.</param>
+        /// <param name="other">The vector to calculate the distance to.</param>
+        /// <returns>The distance between the two vectors.</returns>
+        public static float Distance(this Vector3 vector, Vector3 other)
+        {
+            return Vector3.Distance(vector, other);
+        }
     }
 }

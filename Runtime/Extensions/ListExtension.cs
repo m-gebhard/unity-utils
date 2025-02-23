@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = System.Random;
 
@@ -140,6 +141,19 @@ namespace UnityUtils.Extensions
             }
 
             return furthest;
+        }
+
+        /// <summary>
+        /// Calculates the center point of a list of Vector3s.
+        /// </summary>
+        /// <param name="list">The list of Vector3s to calculate the center point of.</param>
+        /// <returns>The center point of the list of Vector3s.</returns>
+        public static Vector3 Center(this List<Vector3> list)
+        {
+            Vector3 average = list.Aggregate(Vector3.zero, (current, v) => current + v);
+            average /= list.Count;
+
+            return average;
         }
     }
 }
