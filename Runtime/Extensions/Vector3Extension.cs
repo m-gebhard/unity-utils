@@ -8,6 +8,23 @@ namespace UnityUtils.Extensions
     public static class Vector3Extension
     {
         /// <summary>
+        /// Creates a new vector with the specified components replaced by the provided values.
+        /// </summary>
+        /// <param name="vector">The original vector.</param>
+        /// <param name="x">The new x-component value, or null to keep the original x-component.</param>
+        /// <param name="y">The new y-component value, or null to keep the original y-component.</param>
+        /// <param name="z">The new z-component value, or null to keep the original z-component.</param>
+        /// <returns>A new vector with the specified components replaced by the provided values.</returns>
+        public static Vector3 With(this Vector3 vector, float? x = null, float? y = null, float? z = null)
+        {
+            return new Vector3(
+                x ?? vector.x,
+                y ?? vector.y,
+                z ?? vector.z
+            );
+        }
+
+        /// <summary>
         /// Multiplies each component of the vector by the corresponding component of another vector.
         /// </summary>
         /// <param name="vector">The original vector.</param>
