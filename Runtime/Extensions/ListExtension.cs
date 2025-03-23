@@ -64,6 +64,29 @@ namespace UnityUtils.Extensions
         }
 
         /// <summary>
+        /// Returns the next element in the list after the specified item.
+        /// If the item is not found, returns the first element if the list is not empty, otherwise returns the default value for the type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="list">The list to search.</param>
+        /// <param name="item">The item to find the next element of.</param>
+        /// <returns>The next element in the list after the specified item, or the first element if the item is not found and the list is not empty, otherwise the default value for the type.</returns>
+        public static T Next<T>(this List<T> list, T item)
+        {
+            int index = list.IndexOf(item);
+
+            if (index == -1)
+            {
+                return list.Count > 0
+                    ? list[0]
+                    : default;
+            }
+
+            int nextIndex = (index + 1) % list.Count;
+            return list[nextIndex];
+        }
+
+        /// <summary>
         /// Linearly interpolates between elements in a list of floats based on a parameter t.
         /// </summary>
         /// <param name="list">The list of floats to interpolate.</param>
