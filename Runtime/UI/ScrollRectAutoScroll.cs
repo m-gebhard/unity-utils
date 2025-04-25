@@ -30,6 +30,13 @@ namespace UnityUtils.UI
         private float offset;
 
         /// <summary>
+        /// The initial vertical scroll position of the ScrollRect,
+        /// where 1 represents the top and 0 represents the bottom.
+        /// </summary>
+        [SerializeField]
+        private float initialScroll = 1f;
+
+        /// <summary>
         /// The ScrollRect component to control.
         /// </summary>
         private ScrollRect scrollRect;
@@ -51,6 +58,14 @@ namespace UnityUtils.UI
         {
             scrollRect = GetComponent<ScrollRect>();
             eventSystem = UnityEngine.EventSystems.EventSystem.current;
+        }
+
+        /// <summary>
+        /// Sets the initial scroll position to the top of the ScrollRect.
+        /// </summary>
+        private void Start()
+        {
+            scrollRect.verticalNormalizedPosition = initialScroll;
         }
 
         /// <summary>
