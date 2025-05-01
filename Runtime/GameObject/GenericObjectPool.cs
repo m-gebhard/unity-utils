@@ -8,7 +8,7 @@ namespace UnityUtils.GameObjects
     /// A generic object pool for managing reusable objects of type T.
     /// </summary>
     /// <typeparam name="T">The type of objects to pool, which must be a Component.</typeparam>
-    public abstract class GenericObjectPool<T> : EphemeralSingleton<GenericObjectPool<Component>> where T : Component
+    public abstract class GenericObjectPool<T> : EphemeralSingleton<GenericObjectPool<T>> where T : Component
     {
         /// <summary>
         /// The prefab to instantiate for the pool.
