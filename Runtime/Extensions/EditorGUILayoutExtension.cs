@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace UnityUtils.Extensions
 {
+    /// <summary>
+    /// Provides static helper methods for editor GUI layout.
+    /// </summary>
     public static class EditorGUILayoutExtension
     {
         /// <summary>
