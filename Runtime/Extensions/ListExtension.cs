@@ -12,6 +12,24 @@ namespace UnityUtils.Extensions
     public static class ListExtension
     {
         /// <summary>
+        /// Sorts the elements of the list in place using the specified comparison.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the list.</typeparam>
+        /// <param name="list">The list to sort.</param>
+        /// <param name="comparison">The comparison to use for sorting the elements.</param>
+        /// <returns>The sorted list.</returns>
+        public static List<T> SortInPlace<T>(this List<T> list, Comparison<T> comparison)
+        {
+            if (list == null || list.Count <= 1)
+            {
+                return list;
+            }
+
+            list.Sort(comparison);
+            return list;
+        }
+
+        /// <summary>
         /// Shuffles the elements of a list in place using the Fisher-Yates algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements in the list.</typeparam>
