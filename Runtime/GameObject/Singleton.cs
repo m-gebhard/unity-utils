@@ -21,11 +21,6 @@ namespace UnityUtils.GameObjects
 
                 instance = FindFirstObjectByType<T>();
 
-                if (instance == null)
-                {
-                    Debug.LogError($"[BaseSingleton] No instance of {typeof(T)} found in the scene.");
-                }
-
                 return instance;
             }
         }
