@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityUtils.GameObjects;
@@ -18,14 +19,25 @@ public abstract class GameObjectCacheDictionary<T> : EphemeralSingleton<GameObje
     /// </summary>
     /// <param name="key">The GameObject key.</param>
     /// <param name="valueFactory">The function to create a new value if the key does not exist.</param>
+    /// <param name="discardNullValue">Whether to discard the value if the given function returns null,
+    /// otherwise it will cache the null value</param>
     /// <returns>The value associated with the specified key.</returns>
-    public T GetOrAdd(GameObject key, System.Func<GameObject, T> valueFactory)
+    public T GetOrAdd(
+        GameObject key,
+        Func<GameObject, T> valueFactory,
+        bool discardNullValue = true
+    )
     {
         if (!cached.TryGetValue(key, out T value))
         {
             value = valueFactory(key);
-            cached[key] = value;
+
+            if (value != null || !discardNullValue)
+            {
+                cached[key] = value;
+            }
         }
+
         return value;
     }
 
