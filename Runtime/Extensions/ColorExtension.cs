@@ -58,5 +58,16 @@ namespace UnityUtils.Extensions
 
             return color;
         }
+
+        /// <summary>
+        /// Creates a new color with the same RGB values but a modified alpha value.
+        /// </summary>
+        /// <param name="color">The original color.</param>
+        /// <param name="alpha">The new alpha value.</param>
+        /// <returns>A new color with the specified alpha value.</returns>
+        public static Color WithAlpha(this Color color, float alpha)
+        {
+            return new Color(color.r, color.g, color.b, alpha);
+        }
     }
 }
