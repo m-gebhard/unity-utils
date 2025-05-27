@@ -104,6 +104,6 @@ namespace UnityUtils.UI
         /// <summary>
         /// Data associated with the list item.
         /// </summary>
-        public Dictionary<string, string> Data;
+        public Dictionary<string, object> Data;
     }
 }
