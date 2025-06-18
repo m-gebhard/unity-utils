@@ -20,7 +20,16 @@ namespace UnityUtils.Extensions
         /// </summary>
         /// <param name="obj">The object to log the message for.</param>
         /// <param name="message">The message to log.</param>
-        public static void Log(this object obj, object message) => Debug.Log($"{GetObjectTypePrefix(obj)} {message}");
+        public static void Log(this object obj, object message) =>
+            Debug.Log($"{GetObjectTypePrefix(obj)} {message}");
+
+        /// <summary>
+        /// Logs multiple messages with the object's type prefix.
+        /// </summary>
+        /// <param name="obj">The object to log the message for.</param>
+        /// <param name="messages">The messages to log.</param>
+        public static void Log(this object obj, params object[] messages) =>
+            Debug.Log($"{GetObjectTypePrefix(obj)} {string.Join("; ", messages)}");
 
         /// <summary>
         /// Logs a warning message with the object's type prefix.
@@ -43,6 +52,7 @@ namespace UnityUtils.Extensions
         /// </summary>
         /// <param name="obj">The object to log the exception for.</param>
         /// <param name="exception">The exception to log.</param>
-        public static void LogException(this object obj, Exception exception) => Debug.LogException(exception);
+        public static void LogException(this object obj, Exception exception) =>
+            Debug.LogException(exception);
     }
 }
