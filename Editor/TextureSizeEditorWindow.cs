@@ -34,7 +34,7 @@ namespace UnityUtils.Editor
         /// <summary>
         /// Shows the Texture Size Editor window.
         /// </summary>
-        [MenuItem("Tools/Set Max Texture Size")]
+        [MenuItem("Tools/Utils/Set Max Texture Size")]
         public static void ShowWindow()
         {
             GetWindow<TextureSizeEditorWindow>("Texture Size Editor");

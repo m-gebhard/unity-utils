@@ -11,12 +11,17 @@ namespace UnityUtils.Editor
     /// </summary>
     /// <remarks>Make sure the deriving class has a [CustomEditor(typeof(T))] attribute.</remarks>
     /// <typeparam name="T">The type of the target component this editor is associated with.</typeparam>
-    public abstract class EditorPropertyDrawer<T> : UnityEditor.Editor where T : Component
+    public abstract class CustomEditorDrawer<T> : UnityEditor.Editor where T : Component
     {
         /// <summary>
         /// Gets the target component being edited.
         /// </summary>
         protected T Target => (T)target;
+
+        /// <summary>
+        /// Gets the label displayed in the custom editor section.
+        /// </summary>
+        protected virtual string Label { get; } = "Custom Editor";
 
         /// <summary>
         /// A list of custom buttons to display in the editor, each with a label and a callback action.
@@ -36,7 +41,7 @@ namespace UnityUtils.Editor
 
             // Add spacing and a custom label for the custom editor section.
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Custom Editor", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField(Label, EditorStyles.boldLabel);
 
             // Draw custom properties and buttons.
             DrawProperties();

@@ -31,7 +31,7 @@ namespace UnityUtils.Editor
         /// <summary>
         /// Shows the Collider Highlighter window.
         /// </summary>
-        [MenuItem("Window/Collider Highlighter")]
+        [MenuItem("Tools/Utils/Collider Highlighter")]
         public static void ShowWindow()
         {
             GetWindow<ColliderHighlighter>("Collider Highlighter").Show();

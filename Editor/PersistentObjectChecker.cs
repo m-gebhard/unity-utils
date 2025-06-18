@@ -10,7 +10,7 @@ namespace UnityUtils.Editor
         /// <summary>
         /// Editor tool to check for duplicate GUIDs in the scene
         /// </summary>
-        [MenuItem("Tools/Check Duplicate GUIDs")]
+        [MenuItem("Tools/Utils/Check Duplicate GUIDs")]
         public static void CheckForDuplicateGUIDs()
         {
             PersistentObject[] allObjects = FindObjectsByType<PersistentObject>(FindObjectsSortMode.None);
