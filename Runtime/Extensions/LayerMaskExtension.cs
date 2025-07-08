@@ -32,5 +32,26 @@ namespace UnityUtils.Extensions
 
             return areaMask;
         }
+
+        /// <summary>
+        /// Creates a LayerMask from an array of layer names.
+        /// </summary>
+        /// <param name="layerNames">An array of layer names to convert into a LayerMask.</param>
+        /// <returns>A LayerMask representing the specified layers.</returns>
+        public static LayerMask NamesToLayer(params string[] layerNames)
+        {
+            int mask = 0;
+            foreach (string layer in layerNames)
+            {
+                int layerIndex = LayerMask.NameToLayer(layer);
+                if (layerIndex == -1)
+                {
+                    Debug.LogWarning($"Layer '{layer}' does not exist.");
+                    continue;
+                }
+                mask |= 1 << layerIndex;
+            }
+            return mask;
+        }
     }
 }

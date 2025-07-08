@@ -7,7 +7,8 @@ namespace UnityUtils.StateMachine
     /// </summary>
     public class StateMachine
     {
-        private StateNode currentState;
+        public StateNode CurrentState { get; private set; }
+
         private readonly StateMachineNodeManager nodeManager = new();
 
         /// <summary>
@@ -22,7 +23,7 @@ namespace UnityUtils.StateMachine
                 ChangeState(transition.TargetState);
             }
 
-            currentState.State?.Update();
+            CurrentState?.State?.Update();
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace UnityUtils.StateMachine
         /// </summary>
         public void FixedUpdate()
         {
-            currentState.State?.FixedUpdate();
+            CurrentState?.State?.FixedUpdate();
         }
 
         /// <summary>
@@ -39,8 +40,8 @@ namespace UnityUtils.StateMachine
         /// <param name="state">The new state to set.</param>
         public void SetState(IState state)
         {
-            currentState = nodeManager.Nodes[state.GetType()];
-            currentState.State?.Enter();
+            CurrentState = nodeManager.Nodes[state.GetType()];
+            CurrentState.State?.Enter();
         }
 
         /// <summary>
@@ -49,19 +50,19 @@ namespace UnityUtils.StateMachine
         /// <param name="state">The new state to change to.</param>
         private void ChangeState(IState state)
         {
-            if (state == currentState.State)
+            if (state == CurrentState?.State)
             {
                 return;
             }
 
-            IState previousState = currentState.State;
+            IState previousState = CurrentState?.State;
             StateNode newStateNode = nodeManager.Nodes[state.GetType()];
             IState newState = newStateNode.State;
 
             previousState?.Exit();
             newState?.Enter();
 
-            currentState = newStateNode;
+            CurrentState = newStateNode;
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace UnityUtils.StateMachine
             ITransition possibleAnyTransition =
                 nodeManager.AnyTransitions.FirstOrDefault(t => t.Predicate.Evaluate());
 
-            return possibleAnyTransition ?? currentState.Transitions.FirstOrDefault(t => t.Predicate.Evaluate());
+            return possibleAnyTransition ?? CurrentState?.Transitions?.FirstOrDefault(t => t.Predicate.Evaluate());
         }
     }
 }

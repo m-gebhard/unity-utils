@@ -5,7 +5,7 @@ namespace UnityUtils.StateMachine
     /// <summary>
     /// Represents a node in the state machine, holding a state and its transitions.
     /// </summary>
-    internal sealed class StateNode
+    public sealed class StateNode
     {
         /// <summary>
         /// Gets the state associated with this node.
