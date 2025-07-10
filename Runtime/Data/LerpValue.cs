@@ -26,7 +26,7 @@ namespace UnityUtils.Data
         /// <summary>
         /// The speed at which the value interpolates towards the target.
         /// </summary>
-        private readonly float lerpSpeed;
+        private float lerpSpeed;
 
         /// <summary>
         /// Gets the current interpolated value.
@@ -70,6 +70,15 @@ namespace UnityUtils.Data
         {
             currentValue = newValue;
             targetValue = newValue;
+        }
+
+        /// <summary>
+        /// Sets the speed at which the value interpolates towards the target.
+        /// </summary>
+        /// <param name="newSpeed">The new interpolation speed.</param>
+        public void SetLerpSpeed(float newSpeed)
+        {
+            lerpSpeed = newSpeed;
         }
 
         /// <summary>

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace UnityUtils.StateMachine
@@ -8,6 +9,7 @@ namespace UnityUtils.StateMachine
     public class StateMachine
     {
         public StateNode CurrentState { get; private set; }
+        public event Action <IState> OnStateChanged;
 
         private readonly StateMachineNodeManager nodeManager = new();
 
@@ -42,6 +44,7 @@ namespace UnityUtils.StateMachine
         {
             CurrentState = nodeManager.Nodes[state.GetType()];
             CurrentState.State?.Enter();
+            OnStateChanged?.Invoke(CurrentState.State);
         }
 
         /// <summary>
@@ -63,6 +66,7 @@ namespace UnityUtils.StateMachine
             newState?.Enter();
 
             CurrentState = newStateNode;
+            OnStateChanged?.Invoke(newState);
         }
 
         /// <summary>
