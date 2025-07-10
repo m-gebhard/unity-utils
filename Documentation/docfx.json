@@ -1,0 +1,48 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../Editor",
+          "files": [
+            "**/*.cs"
+          ]
+        },
+        {
+          "src": "../Runtime",
+          "files": [
+            "**/*.cs"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "globalMetadata": {
+      "_appTitle": "Unity-Utils Documentation",
+      "_appFooter": "Unity-Utils Documentation",
+      "_enableSearch": true
+    },
+    "content": [
+      {
+        "files": [
+          "toc.yml",
+          "index.md"
+        ]
+      },
+      {
+        "src": "api",
+        "files": [
+          "*.yml"
+        ],
+        "dest": "api"
+      }
+    ],
+    "template": [
+      "default",
+      "templates/unity"
+    ],
+    "dest": "output"
+  }
+}
