@@ -53,5 +53,29 @@ namespace UnityUtils.Extensions
             }
             return mask;
         }
+
+        /// <summary>
+        /// Retrieves the index of a single layer from the LayerMask.
+        /// </summary>
+        /// <param name="mask">The LayerMask to extract the layer index from.</param>
+        /// <returns>
+        /// The index of the single layer in the LayerMask.
+        /// Returns 0 and logs an error if the LayerMask contains no layers or multiple layers.
+        /// </returns>
+        public static int GetSingleLayerIndex(this LayerMask mask)
+        {
+            int bits = mask.value;
+            if (bits == 0 || (bits & (bits - 1)) != 0)
+            {
+                Debug.LogError("LayerMask must contain exactly one layer.");
+                return 0;
+            }
+
+            int index = 0;
+            while ((bits >>= 1) > 0)
+                index++;
+
+            return index;
+        }
     }
 }
