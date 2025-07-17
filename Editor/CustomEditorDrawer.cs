@@ -21,7 +21,7 @@ namespace UnityUtils.Editor
         /// <summary>
         /// Gets the label displayed in the custom editor section.
         /// </summary>
-        protected virtual string Label { get; } = "Custom Editor";
+        protected virtual string Label { get; } = "";
 
         /// <summary>
         /// A list of custom buttons to display in the editor, each with a label and a callback action.
@@ -41,10 +41,11 @@ namespace UnityUtils.Editor
 
             // Add spacing and a custom label for the custom editor section.
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField(Label, EditorStyles.boldLabel);
+            if (!string.IsNullOrEmpty(Label)) EditorGUILayout.LabelField(Label, EditorStyles.boldLabel);
 
             // Draw custom properties and buttons.
             DrawProperties();
+            EditorGUILayout.Space();
             DrawButtons();
 
             // Apply any modified properties to the serialized object.

@@ -39,6 +39,11 @@ namespace UnityUtils.Data
         public T Target => targetValue;
 
         /// <summary>
+        /// Gets the speed at which the value interpolates towards the target.
+        /// </summary>
+        public float LerpSpeed => lerpSpeed;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LerpValue{T}"/> class.
         /// </summary>
         /// <param name="initialValue">The initial value of the interpolation.</param>

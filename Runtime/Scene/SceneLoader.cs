@@ -14,17 +14,17 @@ namespace UnityUtils.SceneManagement
         /// <summary>
         /// Event triggered when a scene change starts.
         /// </summary>
-        public Action<int> OnSceneChangeStart;
+        public event Action<int> OnSceneChangeStart;
 
         /// <summary>
         /// Event triggered to update the progress of a scene change.
         /// </summary>
-        public Action<float> OnSceneChangeProgressUpdate;
+        public event Action<float> OnSceneChangeProgressUpdate;
 
         /// <summary>
         /// Event triggered when a scene change finishes.
         /// </summary>
-        public Action<int> OnSceneChangeFinished;
+        public event Action<int> OnSceneChangeFinished;
 
         /// <summary>
         /// The asynchronous operation for loading a scene.
